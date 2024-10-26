@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Велесова Ночь</title>
+	<style>
+		body {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			background-color: #111111;
+			color: #FAFF00;
+			font-family: Arial, sans-serif;
+			margin: 0;
+			height: 100vh;
+			justify-content: center;
+		}
+
+		.controls {
+			margin-bottom: 20px;
+		}
+
+		button {
+			background-color: #DC44CD;
+			border: none;
+			color: white;
+			padding: 10px 20px;
+			margin: 5px;
+			cursor: pointer;
+			border-radius: 5px;
+		}
+
+		.table {
+			position: relative;
+			width: 400px;
+			height: 400px;
+			border-radius: 50%;
+			border: 5px solid #FAFF00;
+			overflow: hidden;
+		}
+
+		.card {
+			position: absolute;
+			width: 60px;
+			/* ширина карты */
+			height: 90px;
+			/* высота карты */
+			background-image: url('card-face.svg');
+			/* Убедитесь, что этот файл доступен */
+			background-size: cover;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="controls">
+		<button id="players-2">2 игрока</button>
+		<button id="players-3">3 игрока</button>
+		<button id="players-4">4 игрока</button>
+		<button id="players-5">5 игроков</button>
+		<button id="players-6">6 игроков</button>
+	</div>
+	<div class="table" id="table"></div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const buttons = document.querySelectorAll('button');
+			const table = document.getElementById('table');
+
+			buttons.forEach(button => {
+				button.addEventListener('click', function () {
+					const playersCount = parseInt(button.id.split('-')[1]);
+					arrangeCards(playersCount);
+				});
+			});
+
+			function arrangeCards(playersCount) {
+				// Очищаем предыдущие карты
+				table.innerHTML = '';
+
+				const radius = 150; // радиус круга
+				const angleStep = (2 * Math.PI) / playersCount; // шаг угла
+
+				for (let i = 0; i < playersCount; i++) {
+					const card = document.createElement('div');
+					card.className = 'card';
+
+					// Вычисляем угол для текущей карты
+					const angle = i * angleStep;
+
+					// Вычисляем координаты
+					const x = radius * Math.cos(angle) + 200; // 200 - смещение для центрирования
+					const y = radius * Math.sin(angle) + 200; // 200 - смещение для центрирования
+
+					// Устанавливаем позицию карты
+					card.style.left = `${x}px`;
+					card.style.top = `${y}px`;
+
+					table.appendChild(card);
+				}
+			}
+		});
+	</script>
+</body>
+
+</html>
